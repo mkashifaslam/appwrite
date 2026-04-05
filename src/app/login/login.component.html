@@ -1,0 +1,139 @@
+<main class="checker-background flex min-h-screen flex-col items-center justify-center p-5">
+  <div class="w-full max-w-[24em]">
+    <!-- Logo -->
+    <div class="mb-8 flex items-center justify-center gap-4">
+      <div class="rounded-[25%] border border-[#19191C0A] bg-[#F9F9FA] p-2 shadow-[0px_9.36px_9.36px_0px_hsla(0,0%,0%,0.04)]">
+        <div class="rounded-[25%] border border-[#FAFAFB] bg-white p-3 shadow-[0px_2px_12px_0px_hsla(0,0%,0%,0.03)]">
+          <img alt="Appwrite logo" src="/appwrite.svg" class="h-8 w-8" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="rounded-xl border border-[#EDEDF0] bg-white p-8 shadow-sm">
+      <h1 class="mb-6 font-[Poppins] text-2xl font-light text-[#2D2D31]">
+        {{ activeTab === 'login' ? 'Welcome back' : 'Create account' }}
+      </h1>
+
+      <!-- Tabs -->
+      <div class="mb-6 flex rounded-md border border-[#EDEDF0] bg-[#F9F9FA] p-1">
+        <button
+          (click)="setTab('login')"
+          class="flex-1 rounded-sm py-1.5 text-sm transition-colors"
+          [class.bg-white]="activeTab === 'login'"
+          [class.shadow-sm]="activeTab === 'login'"
+          [class.font-medium]="activeTab === 'login'"
+          [class.text-[#2D2D31]]="activeTab === 'login'"
+          [class.text-[#97979B]]="activeTab !== 'login'"
+        >
+          Login
+        </button>
+        <button
+          (click)="setTab('signup')"
+          class="flex-1 rounded-sm py-1.5 text-sm transition-colors"
+          [class.bg-white]="activeTab === 'signup'"
+          [class.shadow-sm]="activeTab === 'signup'"
+          [class.font-medium]="activeTab === 'signup'"
+          [class.text-[#2D2D31]]="activeTab === 'signup'"
+          [class.text-[#97979B]]="activeTab !== 'signup'"
+        >
+          Sign up
+        </button>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="errorMessage" class="mb-4 rounded-md border border-[#FF453A3D] bg-[#FF453A14] px-3 py-2 text-sm text-[#B31212]">
+        {{ errorMessage }}
+      </div>
+
+      <!-- Login Form -->
+      <form *ngIf="activeTab === 'login'" [formGroup]="loginForm" (ngSubmit)="onLogin()" class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <label for="login-email" class="text-sm text-[#97979B]">Email</label>
+          <input
+            id="login-email"
+            formControlName="email"
+            type="email"
+            placeholder="your@email.com"
+            class="rounded-md border border-[#EDEDF0] px-3 py-2 text-sm outline-none focus:border-[#FD366E] focus:ring-1 focus:ring-[#FD366E]"
+          />
+          <span *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-xs text-[#B31212]">
+            Enter a valid email address
+          </span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="login-password" class="text-sm text-[#97979B]">Password</label>
+          <input
+            id="login-password"
+            formControlName="password"
+            type="password"
+            placeholder="Min. 8 characters"
+            class="rounded-md border border-[#EDEDF0] px-3 py-2 text-sm outline-none focus:border-[#FD366E] focus:ring-1 focus:ring-[#FD366E]"
+          />
+          <span *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-xs text-[#B31212]">
+            Password must be at least 8 characters
+          </span>
+        </div>
+        <button
+          type="submit"
+          [disabled]="loading"
+          class="mt-2 cursor-pointer rounded-md bg-[#FD366E] px-4 py-2 text-sm text-white disabled:opacity-60"
+        >
+          <span *ngIf="!loading">Login</span>
+          <span *ngIf="loading">Logging in...</span>
+        </button>
+      </form>
+
+      <!-- Signup Form -->
+      <form *ngIf="activeTab === 'signup'" [formGroup]="signupForm" (ngSubmit)="onSignup()" class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <label for="signup-name" class="text-sm text-[#97979B]">Name</label>
+          <input
+            id="signup-name"
+            formControlName="name"
+            type="text"
+            placeholder="Your name"
+            class="rounded-md border border-[#EDEDF0] px-3 py-2 text-sm outline-none focus:border-[#FD366E] focus:ring-1 focus:ring-[#FD366E]"
+          />
+          <span *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" class="text-xs text-[#B31212]">
+            Name is required
+          </span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="signup-email" class="text-sm text-[#97979B]">Email</label>
+          <input
+            id="signup-email"
+            formControlName="email"
+            type="email"
+            placeholder="your@email.com"
+            class="rounded-md border border-[#EDEDF0] px-3 py-2 text-sm outline-none focus:border-[#FD366E] focus:ring-1 focus:ring-[#FD366E]"
+          />
+          <span *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="text-xs text-[#B31212]">
+            Enter a valid email address
+          </span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="signup-password" class="text-sm text-[#97979B]">Password</label>
+          <input
+            id="signup-password"
+            formControlName="password"
+            type="password"
+            placeholder="Min. 8 characters"
+            class="rounded-md border border-[#EDEDF0] px-3 py-2 text-sm outline-none focus:border-[#FD366E] focus:ring-1 focus:ring-[#FD366E]"
+          />
+          <span *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="text-xs text-[#B31212]">
+            Password must be at least 8 characters
+          </span>
+        </div>
+        <button
+          type="submit"
+          [disabled]="loading"
+          class="mt-2 cursor-pointer rounded-md bg-[#FD366E] px-4 py-2 text-sm text-white disabled:opacity-60"
+        >
+          <span *ngIf="!loading">Create account</span>
+          <span *ngIf="loading">Creating account...</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</main>
