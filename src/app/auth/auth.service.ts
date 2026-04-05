@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Account, Client, ID, Models } from 'appwrite';
-import { environment } from '../environments/environment';
+import { Account, ID, Models } from 'appwrite';
+import { account } from '@lib/appwrite';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private client: Client;
-  private account: Account;
+  private account: Account = account;
 
-  currentUser$ = new BehaviorSubject<Models.User<Models.Preferences> | null>(null);
+  currentUser$ = new BehaviorSubject<Models.User<Models.Preferences> | null>(
+    null,
+  );
 
   constructor() {
-    this.client = new Client()
-      .setEndpoint(environment.appwriteEndpoint)
-      .setProject(environment.appwriteProjectId);
-    this.account = new Account(this.client);
-    this.restoreSession();
+    this.restoreSession().then(() => {
+      console.log('Session restored');
+    });
   }
 
   private async restoreSession() {

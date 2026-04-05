@@ -1,16 +1,17 @@
 import {
-  Component,
-  ViewChild,
-  ElementRef,
   AfterViewInit,
+  Component,
+  ElementRef,
   NgZone,
   OnDestroy,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Client } from 'appwrite';
-import { environment } from '../../environments/environment';
-import { AuthService } from '../auth.service';
+import { environment } from '@env/environment';
+import { AuthService } from '@app/auth/auth.service';
+import { client } from '@lib/appwrite';
 
 interface Log {
   date: Date;
@@ -39,18 +40,16 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   projectId = environment.appwriteProjectId;
   projectName = environment.appwriteProjectName;
 
-  currentUser$ = this.authService.currentUser$;
+  currentUser$;
 
-  private client: Client;
+  private client: Client = client;
 
   constructor(
     private zone: NgZone,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
-    this.client = new Client()
-      .setEndpoint(environment.appwriteEndpoint)
-      .setProject(environment.appwriteProjectId);
+    this.currentUser$ = this.authService.currentUser$;
   }
 
   ngAfterViewInit() {
