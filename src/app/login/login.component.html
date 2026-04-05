@@ -49,8 +49,9 @@
       <!-- Login Form -->
       <form *ngIf="activeTab === 'login'" [formGroup]="loginForm" (ngSubmit)="onLogin()" class="flex flex-col gap-4">
         <div class="flex flex-col gap-1">
-          <label class="text-sm text-[#97979B]">Email</label>
+          <label for="login-email" class="text-sm text-[#97979B]">Email</label>
           <input
+            id="login-email"
             formControlName="email"
             type="email"
             placeholder="your@email.com"
@@ -61,8 +62,9 @@
           </span>
         </div>
         <div class="flex flex-col gap-1">
-          <label class="text-sm text-[#97979B]">Password</label>
+          <label for="login-password" class="text-sm text-[#97979B]">Password</label>
           <input
+            id="login-password"
             formControlName="password"
             type="password"
             placeholder="Min. 8 characters"
@@ -85,8 +87,9 @@
       <!-- Signup Form -->
       <form *ngIf="activeTab === 'signup'" [formGroup]="signupForm" (ngSubmit)="onSignup()" class="flex flex-col gap-4">
         <div class="flex flex-col gap-1">
-          <label class="text-sm text-[#97979B]">Name</label>
+          <label for="signup-name" class="text-sm text-[#97979B]">Name</label>
           <input
+            id="signup-name"
             formControlName="name"
             type="text"
             placeholder="Your name"
@@ -97,8 +100,9 @@
           </span>
         </div>
         <div class="flex flex-col gap-1">
-          <label class="text-sm text-[#97979B]">Email</label>
+          <label for="signup-email" class="text-sm text-[#97979B]">Email</label>
           <input
+            id="signup-email"
             formControlName="email"
             type="email"
             placeholder="your@email.com"
@@ -109,8 +113,9 @@
           </span>
         </div>
         <div class="flex flex-col gap-1">
-          <label class="text-sm text-[#97979B]">Password</label>
+          <label for="signup-password" class="text-sm text-[#97979B]">Password</label>
           <input
+            id="signup-password"
             formControlName="password"
             type="password"
             placeholder="Min. 8 characters"

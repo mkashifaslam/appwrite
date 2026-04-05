@@ -12,15 +12,13 @@ export class AuthService {
   );
 
   constructor() {
-    this.restoreSession().then(() => {
-      console.log('Session restored');
-    });
+    this.restoreSession();
   }
 
   private async restoreSession() {
     try {
-      const user = await this.account.get();
-      this.currentUser$.next(user);
+      await this.getCurrentUser();
+      console.log('Session restored');
     } catch {
       this.currentUser$.next(null);
     }
@@ -28,8 +26,7 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<void> {
     await this.account.createEmailPasswordSession(email, password);
-    const user = await this.account.get();
-    this.currentUser$.next(user);
+    await this.getCurrentUser();
   }
 
   async register(name: string, email: string, password: string): Promise<void> {
@@ -43,6 +40,8 @@ export class AuthService {
   }
 
   async getCurrentUser(): Promise<Models.User<Models.Preferences>> {
-    return this.account.get();
+    const user = await this.account.get();
+    this.currentUser$.next(user);
+    return user;
   }
 }
