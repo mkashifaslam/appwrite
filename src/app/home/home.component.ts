@@ -66,7 +66,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.resizeObserver.unobserve(this.detailsRef.nativeElement);
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    }
   }
 
   async sendPing() {
